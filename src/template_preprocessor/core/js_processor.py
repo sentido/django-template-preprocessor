@@ -128,7 +128,7 @@ def translate_js(text):
     # Load dictionary file
     if lang not in translations:
         try:
-            translations[lang] = gettext.translation('djangojs', 'locale', [ lang ]).gettext
+            translations[lang] = gettext.translation('djangojs', 'locale', [ lang ]).ugettext
         except IOError as e:
             # Fall back to identical translations, when no translation file
             # has been found.
@@ -281,7 +281,7 @@ class JavascriptDoubleQuotedString(JavascriptString):
 
         for c in self.children:
             if isinstance(c, basestring):
-                handler(c.replace(u'"', r'\"'))
+                handler(c.replace(u'"', ur'\"'))
             else:
                 handler(c)
 
@@ -294,7 +294,7 @@ class JavascriptSingleQuotedString(JavascriptString):
 
         for c in self.children:
             if isinstance(c, basestring):
-                handler(c.replace(u"'", r"\'"))
+                handler(c.replace(u"'", ur"\'"))
             else:
                 handler(c)
 
@@ -783,7 +783,7 @@ def _process_gettext(js_node, context, validate_only=False):
 
                             # Replace gettext(...) call by its translation (in double quotes.)
                             gettext.__class__ = JavascriptDoubleQuotedString
-                            gettext.children = [ translation.replace('"', r'\"') ]
+                            gettext.children = [ translation.replace(u'"', ur'\"') ]
                             nodes.remove(parentheses)
                 except IndexError, i:
                     # i got out of the nodes array
