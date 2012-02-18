@@ -73,7 +73,7 @@ def tokenize(tree, states, classes_to_replace_by_parsed_content, classes_to_ente
         while len(input_nodes):
             # Pop input node
             current_input_node = input_nodes[0]
-            input_nodes = input_nodes[1:]
+            del input_nodes[0]
 
             if isinstance(current_input_node, basestring):
                 # Tokenize content
@@ -88,7 +88,7 @@ def tokenize(tree, states, classes_to_replace_by_parsed_content, classes_to_ente
                 while len(input_nodes) and isinstance(input_nodes[0], basestring):
                     # Pop another input node
                     string = string + input_nodes[0]
-                    input_nodes = input_nodes[1:]
+                    del input_nodes[0]
 
                 # Parse position
                 position = 0

@@ -674,10 +674,10 @@ def _remove_whitespace_around_html_block_level_tags(tree):
 
                 # Also, *inside* the block level element, remove whitespace at the
                 # beginning and before the end
-                while len(c.children) and isinstance(c.children[0], HtmlWhiteSpace):
-                    c.children = c.children[1:]
-                while len(c.children) and isinstance(c.children[-1], HtmlWhiteSpace):
-                    c.children = c.children[:-1]
+                while c.children and isinstance(c.children[0], HtmlWhiteSpace):
+                    del c.children[0]
+                while c.children and isinstance(c.children[-1], HtmlWhiteSpace):
+                    del c.children[-1]
 
             # If we find a whitespace
             elif isinstance(c, HtmlWhiteSpace):
@@ -1048,7 +1048,7 @@ def _pack_external_css(tree, context):
             media = first_tag.get_html_attribute_value_as_string('media')
 
             css_in_current_pack = [ css_in_pack[0]['source'] ]
-            css_in_pack = css_in_pack[1:]
+            del css_in_pack[0]
 
             # Following css includes with same media attribute
             while css_in_pack and css_in_pack[0]['tag'].get_html_attribute_value_as_string('media') == media:
@@ -1057,7 +1057,7 @@ def _pack_external_css(tree, context):
 
                 # Remember source
                 css_in_current_pack.append(css_in_pack[0]['source'])
-                css_in_pack = css_in_pack[1:]
+                del css_in_pack[0]
 
             # Remember which media files were linked to this cache,
             # and compile the media files.
