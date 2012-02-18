@@ -70,7 +70,7 @@ def tokenize(tree, states, classes_to_replace_by_parsed_content, classes_to_ente
         path = node.path
 
         # As long as we have input nodes
-        while len(input_nodes):
+        while input_nodes:
             # Pop input node
             current_input_node = input_nodes[0]
             del input_nodes[0]
@@ -85,9 +85,9 @@ def tokenize(tree, states, classes_to_replace_by_parsed_content, classes_to_ente
                 # We want the regex to be able to match as much as possible,
                 # So, if several basestring nodes, are following each other,
                 # concatenate as one.
-                while len(input_nodes) and isinstance(input_nodes[0], basestring):
+                while input_nodes and isinstance(input_nodes[0], basestring):
                     # Pop another input node
-                    string = string + input_nodes[0]
+                    string += input_nodes[0]
                     del input_nodes[0]
 
                 # Parse position
@@ -130,7 +130,7 @@ def tokenize(tree, states, classes_to_replace_by_parsed_content, classes_to_ente
                                     state_stack.append(action.state_name)
 
                                 elif isinstance(action, Pop):
-                                    state_stack.pop()
+                                    del state_stack[-1]
 
                                 elif isinstance(action, StartToken):
                                     token = Token(action.state_name, line, column, path)
@@ -145,7 +145,7 @@ def tokenize(tree, states, classes_to_replace_by_parsed_content, classes_to_ente
 #                                    if action.state_name and token_stack[-1].name != action.state_name:
 #                                        raise CompileException(line, column, path, 'Token mismatch')
 
-                                    token_stack.pop()
+                                    del token_stack[-1]
 
                                 elif isinstance(action, Error):
                                     raise CompileException(line, column, path, action.message +
@@ -226,7 +226,6 @@ def nest_block_level_elements(tree, mappings, _classes=Token, check=None):
                 m = mappings[check(c)]
                 (end, class_) = (m[:-1], m[-1])
 
-
                 # Patch class
                 c.__class__ = class_
 
@@ -258,9 +257,9 @@ def nest_block_level_elements(tree, mappings, _classes=Token, check=None):
                 #nest_block_level_elements(moving_to_node[-1])
 
                 # Continue
-                moving_to_node.pop()
-                moving_to_index.pop()
-                tags_stack.pop()
+                del moving_to_node[-1]
+                del moving_to_index[-1]
+                del tags_stack[-1]
 
             # Any 'else'-node within
             elif moving_to_node and is_given_class and check_value in tags_stack[-1][:-1]:
