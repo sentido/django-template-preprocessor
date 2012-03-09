@@ -133,7 +133,7 @@ class Command(BaseCommand):
         # load files from this cache.)
         if all_templates:
             if not interactive or raw_input('\nDelete all files in template cache directory: %s? [y/N] ' %
-                                settings.TEMPLATE_CACHE_DIR).lower() == 'y':
+                                settings.TEMPLATE_CACHE_DIR).lower() in ('y', 'yes'):
                 for root, dirs, files in os.walk(settings.TEMPLATE_CACHE_DIR):
                     for f in files:
                         if not f[0] == '.': # Skip hidden files
@@ -143,7 +143,7 @@ class Command(BaseCommand):
                             os.remove(path)
 
             if not interactive or raw_input('\nDelete all files in media cache directory %s? [y/N] ' %
-                                settings.MEDIA_CACHE_DIR).lower() == 'y':
+                                settings.MEDIA_CACHE_DIR).lower() in ('y', 'yes'):
                 for root, dirs, files in os.walk(settings.MEDIA_CACHE_DIR):
                     for f in files:
                         if not f[0] == '.': # Skip hidden files
