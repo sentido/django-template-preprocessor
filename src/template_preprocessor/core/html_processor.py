@@ -957,14 +957,14 @@ def _merge_internal_javascript(tree):
     Group all internal javascript code in the first javascript block.
     NOTE: but don't move scripts which appear in a conditional comment.
     """
-    _merge_nodes_of_type(tree, HtmlScriptNode, dont_enter=[HtmlConditionalComment])
+    _merge_nodes_of_type(tree, HtmlScriptNode, dont_enter=HtmlConditionalComment)
 
 
 def _merge_internal_css(tree):
     """
     Group all internal CSS code in the first CSS block.
     """
-    _merge_nodes_of_type(tree, HtmlStyleNode, dont_enter=[HtmlConditionalComment])
+    _merge_nodes_of_type(tree, HtmlStyleNode, dont_enter=HtmlConditionalComment)
 
 
 def _pack_external_javascript(tree, context):
