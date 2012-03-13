@@ -2,4 +2,5 @@
 TODO's
 *********************
 
-- Static files support
+- Remove Django as dependency if possible. Someone should be able to
+  compile/validate templates without setting up a Django project.

@@ -18,7 +18,6 @@ from template_preprocessor.core.lexer_engine import tokenize, nest_block_level_e
 from template_preprocessor.core.utils import check_external_file_existance, is_remote_url
 
 from copy import deepcopy
-from django.conf import settings
 from django.utils.translation import ugettext as _, ungettext
 
 import codecs
